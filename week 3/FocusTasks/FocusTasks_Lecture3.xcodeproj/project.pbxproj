@@ -1,0 +1,85 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+		4C5AA88CF6344E35B46AA629 /* FocusTasksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusTasksApp.swift"; sourceTree = "<group>"; };
+		3C8F762C59914374B3C9A20C /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskItem.swift"; sourceTree = "<group>"; };
+		1F976F3261D64AEA98137E74 /* TaskStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskStore.swift"; sourceTree = "<group>"; };
+		4C8600B16B264226A71AB082 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskListViewModel.swift"; sourceTree = "<group>"; };
+		0B83448F339C4F8CBEAEFA5B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView.swift"; sourceTree = "<group>"; };
+		6E762F99E4864D4185A86FE4 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchField.swift"; sourceTree = "<group>"; };
+		0A9A0F72C5D64EA8A9788AC7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView.swift"; sourceTree = "<group>"; };
+		E38F8F94D2424654AE4476F9 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskListView.swift"; sourceTree = "<group>"; };
+		ADCD8B483DDE4C62825F6D1B /* TaskRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskRowView.swift"; sourceTree = "<group>"; };
+		AB9632A2B1F24FD9881BA22C /* PreviewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreviewContainer.swift"; sourceTree = "<group>"; };
+		A12D31FB8116433F995C05CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+		C83B1123CB3340BB8F45CE41 /* FocusTasksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5AA88CF6344E35B46AA629 /* FocusTasksApp.swift */; };
+		F810668E1B384D958D4F6CCF /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8F762C59914374B3C9A20C /* TaskItem.swift */; };
+		4B8079582BBA4403AE28E060 /* TaskStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F976F3261D64AEA98137E74 /* TaskStore.swift */; };
+		53E62AFA3139461F92E896DB /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8600B16B264226A71AB082 /* TaskListViewModel.swift */; };
+		94BEC83DB9C84B1E99927D0F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B83448F339C4F8CBEAEFA5B /* ContentView.swift */; };
+		B732433610634CDCA3B02F01 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E762F99E4864D4185A86FE4 /* SearchField.swift */; };
+		78883508161B474BA7213216 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9A0F72C5D64EA8A9788AC7 /* SettingsView.swift */; };
+		5A8569CD575B4D1487C3D808 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38F8F94D2424654AE4476F9 /* TaskListView.swift */; };
+		D0FCA7ED359B4DA2B2568DD4 /* TaskRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCD8B483DDE4C62825F6D1B /* TaskRowView.swift */; };
+		DD6C765A90614F27B5C6C0FA /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9632A2B1F24FD9881BA22C /* PreviewContainer.swift */; };
+		F24D81E53B3844E6AF2F108E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A12D31FB8116433F995C05CF /* Assets.xcassets */; };
+		AAEF4124C54142FBAC1B5E8F /* Models */ = {isa = PBXGroup; children = (
+			3C8F762C59914374B3C9A20C /* TaskItem.swift */,
+		); path = Models; sourceTree = "<group>"; };
+		E221CB1484B84FDA841F1DF3 /* Store */ = {isa = PBXGroup; children = (
+			1F976F3261D64AEA98137E74 /* TaskStore.swift */,
+		); path = Store; sourceTree = "<group>"; };
+		BF2787733EFC4611968FC5EA /* ViewModels */ = {isa = PBXGroup; children = (
+			4C8600B16B264226A71AB082 /* TaskListViewModel.swift */,
+		); path = ViewModels; sourceTree = "<group>"; };
+		07C0590802514E9683ECE77B /* Views */ = {isa = PBXGroup; children = (
+			0B83448F339C4F8CBEAEFA5B /* ContentView.swift */,
+			6E762F99E4864D4185A86FE4 /* SearchField.swift */,
+			0A9A0F72C5D64EA8A9788AC7 /* SettingsView.swift */,
+			E38F8F94D2424654AE4476F9 /* TaskListView.swift */,
+			ADCD8B483DDE4C62825F6D1B /* TaskRowView.swift */,
+			AB9632A2B1F24FD9881BA22C /* PreviewContainer.swift */,
+		); path = Views; sourceTree = "<group>"; };
+		8B00F93B98F94002AEB4FD2F /* Products */ = {isa = PBXGroup; children = (
+			3025F3E51C854829A2D3DD4A /* FocusTasks_Lecture3.app */,
+		); name = Products; sourceTree = "<group>"; };
+		5CEF5C1657234AD0905622ED /* FocusTasks_Lecture3 */ = {isa = PBXGroup; children = (
+			4C5AA88CF6344E35B46AA629 /* FocusTasksApp.swift */,
+			AAEF4124C54142FBAC1B5E8F /* Models */,
+			E221CB1484B84FDA841F1DF3 /* Store */,
+			BF2787733EFC4611968FC5EA /* ViewModels */,
+			07C0590802514E9683ECE77B /* Views */,
+			A12D31FB8116433F995C05CF /* Assets.xcassets */,
+		); sourceTree = "<group>"; };
+		3EFD13AD1FEF4DCDB797C6D0 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+			C83B1123CB3340BB8F45CE41 /* FocusTasksApp.swift in Sources */,
+			F810668E1B384D958D4F6CCF /* TaskItem.swift in Sources */,
+			4B8079582BBA4403AE28E060 /* TaskStore.swift in Sources */,
+			53E62AFA3139461F92E896DB /* TaskListViewModel.swift in Sources */,
+			94BEC83DB9C84B1E99927D0F /* ContentView.swift in Sources */,
+			B732433610634CDCA3B02F01 /* SearchField.swift in Sources */,
+			78883508161B474BA7213216 /* SettingsView.swift in Sources */,
+			5A8569CD575B4D1487C3D808 /* TaskListView.swift in Sources */,
+			D0FCA7ED359B4DA2B2568DD4 /* TaskRowView.swift in Sources */,
+			DD6C765A90614F27B5C6C0FA /* PreviewContainer.swift in Sources */,
+		); runOnlyForDeploymentPostprocessing = 0; };
+		8D5F1B6D69314A78B29659A1 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		E7F6239150B7492C83B6BC57 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
+			F24D81E53B3844E6AF2F108E /* Assets.xcassets in Resources */,
+		); runOnlyForDeploymentPostprocessing = 0; };
+		3025F3E51C854829A2D3DD4A /* FocusTasks_Lecture3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusTasks_Lecture3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F059952C4786409A9E6BD4AA /* FocusTasks_Lecture3 */ = {isa = PBXNativeTarget; buildConfigurationList = 9AB23A9545DA40A4B04E9E8B /* Build configuration list for PBXNativeTarget "FocusTasks_Lecture3" */; buildPhases = (3EFD13AD1FEF4DCDB797C6D0 /* Sources */, 8D5F1B6D69314A78B29659A1 /* Frameworks */, E7F6239150B7492C83B6BC57 /* Resources */); buildRules = (); dependencies = (); name = FocusTasks_Lecture3; productName = FocusTasks_Lecture3; productReference = 3025F3E51C854829A2D3DD4A /* FocusTasks_Lecture3.app */; productType = "com.apple.product-type.application"; };
+		42A614B0962948DEA7BB3E1F /* Project object */ = {isa = PBXProject; attributes = { LastSwiftUpdateCheck = 2600; LastUpgradeCheck = 2600; TargetAttributes = { F059952C4786409A9E6BD4AA = { CreatedOnToolsVersion = 26.0; }; }; }; buildConfigurationList = EFD3F33CE284434A9E5E38A5 /* Build configuration list for PBXProject "FocusTasks_Lecture3" */; compatibilityVersion = "Xcode 16.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = 5CEF5C1657234AD0905622ED /* FocusTasks_Lecture3 */; productRefGroup = 8B00F93B98F94002AEB4FD2F /* Products */; projectDirPath = ""; projectRoot = ""; targets = (F059952C4786409A9E6BD4AA /* FocusTasks_Lecture3 */); };
+		57C989B2654344C7986D3AF5 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; IPHONEOS_DEPLOYMENT_TARGET = 18.0; TARGETED_DEVICE_FAMILY = "1"; PRODUCT_BUNDLE_IDENTIFIER = com.example.FocusTasksLecture3; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; PRODUCT_NAME = "$(TARGET_NAME)"; SDKROOT = iphoneos;}; name = Debug; };
+		73095A4A1B254B35B5FCF38D /* Release */ = {isa = XCBuildConfiguration; buildSettings = {SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; IPHONEOS_DEPLOYMENT_TARGET = 18.0; TARGETED_DEVICE_FAMILY = "1"; PRODUCT_BUNDLE_IDENTIFIER = com.example.FocusTasksLecture3; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; PRODUCT_NAME = "$(TARGET_NAME)"; SDKROOT = iphoneos;}; name = Release; };
+		789DED0AB35E4229A449DED7 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; IPHONEOS_DEPLOYMENT_TARGET = 18.0; TARGETED_DEVICE_FAMILY = "1"; PRODUCT_BUNDLE_IDENTIFIER = com.example.FocusTasksLecture3; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; PRODUCT_NAME = "$(TARGET_NAME)"; SDKROOT = iphoneos;}; name = Debug; };
+		59F1F277C76E43858C9BE97E /* Release */ = {isa = XCBuildConfiguration; buildSettings = {SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; IPHONEOS_DEPLOYMENT_TARGET = 18.0; TARGETED_DEVICE_FAMILY = "1"; PRODUCT_BUNDLE_IDENTIFIER = com.example.FocusTasksLecture3; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; PRODUCT_NAME = "$(TARGET_NAME)"; SDKROOT = iphoneos;}; name = Release; };
+		EFD3F33CE284434A9E5E38A5 /* Build configuration list for PBXProject "FocusTasks_Lecture3" */ = {isa = XCConfigurationList; buildConfigurations = (57C989B2654344C7986D3AF5 /* Debug */, 73095A4A1B254B35B5FCF38D /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+		9AB23A9545DA40A4B04E9E8B /* Build configuration list for PBXNativeTarget "FocusTasks_Lecture3" */ = {isa = XCConfigurationList; buildConfigurations = (789DED0AB35E4229A449DED7 /* Debug */, 59F1F277C76E43858C9BE97E /* Release */); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+	};
+	rootObject = 42A614B0962948DEA7BB3E1F /* Project object */;
+}

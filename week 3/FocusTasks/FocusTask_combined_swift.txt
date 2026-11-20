@@ -1,0 +1,490 @@
+
+
+================================================
+=== 📄 FILE NAME: ./ViewModels/TaskListViewModel.swift ===
+================================================
+
+    //  TaskListViewModel.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import Foundation
+import Observation
+
+    // Handles the logic for filtering, searching, and sorting tasks for the UI view
+@MainActor
+@Observable
+final class TaskListViewModel {
+    private let store: TaskStore
+
+        // UI state properties for searching and filtering tasks
+    var searchText = ""
+    var showCompleted = true
+
+    init(store: TaskStore) {
+        self.store = store
+    }
+
+        // Computes the filtered and sorted list of tasks to show on the screen
+    var visibleTasks: [TaskItem] {
+        store.tasks
+            // Filter out completed tasks if showCompleted is false
+            .filter { showCompleted || !$0.isComplete }
+            // Filter by search text (ignoring upper/lowercase)
+            .filter {
+                searchText.isEmpty ||
+                $0.title.localizedCaseInsensitiveContains(searchText)
+            }
+            // Sort tasks: uncompleted tasks first, then sort by priority level
+            .sorted { lhs, rhs in
+                if lhs.isComplete != rhs.isComplete {
+                    return !lhs.isComplete && rhs.isComplete
+                }
+                return lhs.priority.sortOrder > rhs.priority.sortOrder
+            }
+    }
+
+        // Returns the number of completed tasks
+    var completedCount: Int {
+        store.tasks.count(where: \.isComplete)
+    }
+
+        // Returns the total number of tasks
+    var totalCount: Int {
+        store.tasks.count
+    }
+
+        // Delegates toggling a task's completion status to the store
+    func toggleComplete(_ task: TaskItem) {
+        store.toggleComplete(task)
+    }
+
+        // Delegates deleting a task to the store
+    func delete(_ task: TaskItem) {
+        store.delete(task)
+    }
+}
+
+
+================================================
+=== 📄 FILE NAME: ./Models/TaskItem.swift ===
+================================================
+
+    //  TaskItem.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import Foundation
+
+    // Represents a single task. Identifiable lets SwiftUI track each item uniquely, and Equatable allows us to compare tasks.
+struct TaskItem: Identifiable, Equatable {
+    let id: UUID
+    var title: String
+    var priority: Priority
+    var isComplete: Bool
+
+        // Defines priority levels and assigns a numeric value to easily sort tasks by importance
+    enum Priority: String, CaseIterable {
+        case low, medium, high
+
+        var sortOrder: Int {
+            switch self {
+            case .low: 0
+            case .medium: 1
+            case .high: 2
+            }
+        }
+    }
+
+        // Custom initializer with helpful default values (medium priority, not completed yet)
+    init(
+        id: UUID = UUID(),
+        title: String,
+        priority: Priority = .medium,
+        isComplete: Bool = false
+    ) {
+        self.id = id
+        self.title = title
+        self.priority = priority
+        self.isComplete = isComplete
+    }
+}
+
+
+================================================
+=== 📄 FILE NAME: ./Views/TaskListView.swift ===
+================================================
+
+    //  TaskListView.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import SwiftUI
+
+    // Displays the main list of tasks along with search, filter toggles, and delete controls
+struct TaskListView: View {
+    @Environment(TaskListViewModel.self) private var viewModel
+
+    var body: some View {
+            // Creates a bindable wrapper so we can use $ with the @Observable view model properties
+        @Bindable var viewModel = viewModel
+
+        NavigationStack {
+            List {
+                    // Search field bound to the view model's search text
+                SearchField(text: $viewModel.searchText)
+
+                    // Toggle switch to show or hide completed tasks
+                Toggle(
+                    "Show Completed",
+                    isOn: $viewModel.showCompleted
+                )
+
+                    // Section header showing real-time completion progress count
+                Section(
+                    "\(viewModel.completedCount) of \(viewModel.totalCount) complete"
+                ) {
+                        // Loop through the filtered/sorted tasks from the view model
+                    ForEach(viewModel.visibleTasks) { task in
+                        TaskRowView(task: task) {
+                            viewModel.toggleComplete(task)
+                        }
+                    }
+                        // Handles swiping to delete tasks from the list
+                    .onDelete { offsets in
+                        for index in offsets {
+                            let task = viewModel.visibleTasks[index]
+                            viewModel.delete(task)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("FocusTasks")
+        }
+    }
+}
+
+    // Preview provider using a helper container to render the view with sample data
+#Preview("TaskListView") {
+    PreviewContainer()
+}
+
+
+================================================
+=== 📄 FILE NAME: ./Views/SettingsView.swift ===
+================================================
+
+    //  SettingsView.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import SwiftUI
+
+    // Displays app preferences and summary statistics using the environment task store
+struct SettingsView: View {
+        // Access the shared task store and system color scheme from the environment
+    @Environment(TaskStore.self) private var store
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                    // Section showing task counts from the shared store
+                Section("Shared TaskStore") {
+                    LabeledContent("Total", value: "\(store.tasks.count)")
+                    LabeledContent("Completed", value: "\(store.tasks.count(where: \.isComplete))")
+                }
+
+                    // Section showing device settings or environment state
+                Section("System Environment") {
+                    LabeledContent(
+                        "Appearance",
+                        value: colorScheme == .dark ? "Dark" : "Light"
+                    )
+                }
+            }
+            .navigationTitle("Settings")
+        }
+    }
+}
+
+    // Preview provider using a helper container to render the view with sample data
+#Preview("SettingsView") {
+    PreviewContainer()
+}
+
+
+================================================
+=== 📄 FILE NAME: ./Views/PreviewContainer.swift ===
+================================================
+
+    //  PreviewContainer.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import SwiftUI
+
+    // A helper container used in SwiftUI previews to supply sample data and environment objects to our views
+struct PreviewContainer: View {
+    @State private var store: TaskStore
+    @State private var viewModel: TaskListViewModel
+
+    init() {
+            // Initialize a mock store and view model for previewing purposes
+        let store = TaskStore()
+        _store = State(initialValue: store)
+        _viewModel = State(initialValue: TaskListViewModel(store: store))
+    }
+
+    var body: some View {
+        ContentView()
+            // Inject the preview store and view model into the child views
+            .environment(store)
+            .environment(viewModel)
+    }
+}
+
+    // Global preview entry point for the entire app layout
+#Preview("FocusTasks") {
+    PreviewContainer()
+}
+
+
+================================================
+=== 📄 FILE NAME: ./Views/TaskRowView.swift ===
+================================================
+
+    //  TaskRowView.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import SwiftUI
+
+    // Displays a single row in the task list with a checkbox, title, and priority badge
+struct TaskRowView: View {
+    let task: TaskItem
+    let onToggle: () -> Void // Closure triggered when the user taps the completion button
+
+    var body: some View {
+        HStack {
+                // Checkbox button that changes appearance depending on completion status
+            Button(action: onToggle) {
+                Image(
+                    systemName: task.isComplete
+                    ? "checkmark.circle.fill"
+                    : "circle"
+                )
+                .foregroundStyle(task.isComplete ? .green : .secondary)
+            }
+            .buttonStyle(.plain)
+
+                // Task title text; adds a strikethrough effect when completed
+            Text(task.title)
+                .strikethrough(task.isComplete)
+
+            Spacer()
+
+                // Displays the priority level badge on the right side
+            Text(task.priority.rawValue.capitalized)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+    // Preview provider for testing an individual task row
+#Preview("TaskRowView") {
+    TaskRowView(
+        task: TaskItem(title: "Example task", priority: .high),
+        onToggle: {}
+    )
+    .padding()
+}
+
+
+================================================
+=== 📄 FILE NAME: ./Views/SearchField.swift ===
+================================================
+
+    //  SearchField.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import SwiftUI
+
+    // A reusable search bar component that binds to a text string in the parent view
+struct SearchField: View {
+    @Binding var text: String
+
+    var body: some View {
+        HStack {
+                // Search icon on the left
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(.secondary)
+
+                // Text input field for typing search queries
+            TextField("Search tasks", text: $text)
+
+                // Clear button appears only when there is text typed in
+            if !text.isEmpty {
+                Button {
+                    text = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(10)
+        .background(.quaternary, in: RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+    // Preview provider for the search field
+#Preview("SearchField") {
+    SearchFieldPreview()
+}
+
+    // Helper struct to provide local state for testing the search field in previews
+private struct SearchFieldPreview: View {
+    @State private var text = "swift"
+
+    var body: some View {
+        SearchField(text: $text)
+            .padding()
+    }
+}
+
+
+================================================
+=== 📄 FILE NAME: ./Views/ContentView.swift ===
+================================================
+
+    //  ContentView.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import SwiftUI
+
+    // The main view of the app containing a tab bar for navigation between Tasks and Settings
+struct ContentView: View {
+    var body: some View {
+        TabView {
+                // First tab: Displays the main task list
+            TaskListView()
+                .tabItem {
+                    Label("Tasks", systemImage: "checklist")
+                }
+
+                // Second tab: Displays the app settings
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape")
+                }
+        }
+    }
+}
+
+    // Preview provider using a helper container to render the view with sample data
+#Preview("ContentView") {
+    PreviewContainer()
+}
+
+
+================================================
+=== 📄 FILE NAME: ./Store/TaskStore.swift ===
+================================================
+
+    //  TaskStore.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import Foundation
+import Observation
+
+    // Manages the app's task data and automatically updates UI views when data changes
+@MainActor
+@Observable
+final class TaskStore {
+        // The list of tasks, pre-populated with sample data for testing and display
+    private(set) var tasks: [TaskItem] = [
+        TaskItem(title: "Review lecture notes", priority: .high),
+        TaskItem(title: "Build FocusTasks demo", priority: .high),
+        TaskItem(title: "Test search field", priority: .medium),
+        TaskItem(title: "Read SwiftUI documentation", priority: .low, isComplete: true)
+    ]
+
+        // Adds a new task to the collection
+    func add(_ task: TaskItem) {
+        tasks.append(task)
+    }
+
+        // Toggles a specific task's completion status between done and not done
+    func toggleComplete(_ task: TaskItem) {
+        guard let index = tasks.firstIndex(where: { $0.id == task.id }) else { return }
+        tasks[index].isComplete.toggle()
+    }
+
+        // Removes a task from the collection by matching its ID
+    func delete(_ task: TaskItem) {
+        tasks.removeAll { $0.id == task.id }
+    }
+}
+
+
+================================================
+=== 📄 FILE NAME: ./FocusTasksApp.swift ===
+================================================
+
+    //  FocusTasksApp.swift
+    //  FocusTasks
+    //
+    //  Created by Girish Lukka on 18/09/2026.
+    //
+
+import SwiftUI
+
+    // Marks this struct as the entry point where the app starts running
+@main
+struct FocusTasksApp: App {
+        // State properties to hold our app's core data and view logic
+    @State private var taskStore: TaskStore
+    @State private var taskListViewModel: TaskListViewModel
+
+    init() {
+            // Set up the shared task store and pass it into the view model
+        let store = TaskStore()
+        _taskStore = State(initialValue: store)
+        _taskListViewModel = State(
+            initialValue: TaskListViewModel(store: store)
+        )
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                // Inject the store and view model into the environment so all child views can access them
+                .environment(taskStore)
+                .environment(taskListViewModel)
+        }
+    }
+}
